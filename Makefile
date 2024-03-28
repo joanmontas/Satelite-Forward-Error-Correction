@@ -3,7 +3,7 @@
 # License under GNU General Public License v3.0
 
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = --std=c99 -Wextra -Wpedantic -Wformat -Wshadow #-Wconversion
 PROGRAM_NAME = SFEC_USECASE
 
 all: $(PROGRAM_NAME) main.o SFEC.o
