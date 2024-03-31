@@ -6,14 +6,14 @@
 #include <stdint.h>
 
 // Hardcoded 7 bits
-struct bit7 Bit7Encode(unsigned int d[]) {
+struct bit7 Bit7Encode(unsigned char d[]) {
         struct bit7 bitfield;
 
         // Assign data
-        bitfield.bit3 = d[3];
-        bitfield.bit5 = d[2];
-        bitfield.bit6 = d[1];
-        bitfield.bit7 = d[0];
+        bitfield.bit3 = (unsigned char) (d[3] & 1);
+        bitfield.bit5 = (unsigned char) (d[2] & 1);
+        bitfield.bit6 = (unsigned char) (d[1] & 1);
+        bitfield.bit7 = (unsigned char) (d[0] & 1);
         
         /*
                 bit1 = P1 = d3 ⊕ d5 ⊕ d7
@@ -24,14 +24,14 @@ struct bit7 Bit7Encode(unsigned int d[]) {
         */
 
         // calculate parity bits
-        unsigned int p1 = bitfield.bit3 ^ bitfield.bit5 ^ bitfield.bit7;
-        unsigned int p2 = bitfield.bit3 ^ bitfield.bit6 ^ bitfield.bit7;
-        unsigned int p3 = bitfield.bit5 ^ bitfield.bit6 ^ bitfield.bit7;
+        unsigned char p1 = bitfield.bit3 ^ bitfield.bit5 ^ bitfield.bit7;
+        unsigned char p2 = bitfield.bit3 ^ bitfield.bit6 ^ bitfield.bit7;
+        unsigned char p4 = bitfield.bit5 ^ bitfield.bit6 ^ bitfield.bit7;
 
         // parity initialize
-        bitfield.bit1 = p1;
-        bitfield.bit2 = p2;
-        bitfield.bit4 = p3;
+        bitfield.bit1 = (unsigned char) (p1 & 1);
+        bitfield.bit2 = (unsigned char) (p2 & 1);
+        bitfield.bit4 = (unsigned char) (p4 & 1);
         return bitfield;
 }
 
@@ -55,13 +55,13 @@ char* Bit7Stringify(struct bit7 b) {
                 return NULL;
         }
 
-        str[0] = (b.bit1 == 0) ? '0' : '1';
-        str[1] = (b.bit2 == 0) ? '0' : '1';
-        str[2] = (b.bit3 == 0) ? '0' : '1';
+        str[0] = (b.bit7 == 0) ? '0' : '1';
+        str[1] = (b.bit6 == 0) ? '0' : '1';
+        str[2] = (b.bit5 == 0) ? '0' : '1';
         str[3] = (b.bit4 == 0) ? '0' : '1';
-        str[4] = (b.bit5 == 0) ? '0' : '1';
-        str[5] = (b.bit6 == 0) ? '0' : '1';
-        str[6] = (b.bit7 == 0) ? '0' : '1';
+        str[4] = (b.bit3 == 0) ? '0' : '1';
+        str[5] = (b.bit2 == 0) ? '0' : '1';
+        str[6] = (b.bit1 == 0) ? '0' : '1';
 
         return str;
 }
@@ -71,7 +71,7 @@ void Bit7StringifyDestroy(char* str) {
         free(str);
 }
 
-void Bit7DecodeToArray(struct bit7 b, int a[4]) {
+void Bit7DecodeToArray(struct bit7 b, unsigned char a[4]) {
         a[3] = b.bit3;
         a[2] = b.bit5;
         a[1] = b.bit6;
@@ -105,7 +105,19 @@ void Bit7MutateXBit(struct bit7 *b, int x) {
         }
 }
 
-struct bit12 Bit12Encode(unsigned int d[]){
+uint8_t Bit7ToUint8(struct bit7 b) {
+        uint8_t u8 = 0;
+        u8 = u8 | b.bit1 << 7;
+        u8 = u8 | b.bit2 << 6;
+        u8 = u8 | b.bit3 << 5;
+        u8 = u8 | b.bit4 << 4;
+        u8 = u8 | b.bit5 << 3;
+        u8 = u8 | b.bit6 << 2;
+        u8 = u8 | b.bit7 << 1;
+        return u8;
+}
+
+struct bit12 Bit12Encode(unsigned char d[]){
         struct bit12 bitfield;
 
         /*
@@ -116,26 +128,26 @@ struct bit12 Bit12Encode(unsigned int d[]){
         */
 
         // Assign data
-        bitfield.bit3  = d[7];
-        bitfield.bit5  = d[6];
-        bitfield.bit6  = d[5];
-        bitfield.bit7  = d[4];
-        bitfield.bit9  = d[3];
-        bitfield.bit10 = d[2];
-        bitfield.bit11 = d[1];
-        bitfield.bit12 = d[0];
+        bitfield.bit3  = (unsigned char) (d[7] & 1);
+        bitfield.bit5  = (unsigned char) (d[6] & 1);
+        bitfield.bit6  = (unsigned char) (d[5] & 1);
+        bitfield.bit7  = (unsigned char) (d[4] & 1);
+        bitfield.bit9  = (unsigned char) (d[3] & 1);
+        bitfield.bit10 = (unsigned char) (d[2] & 1);
+        bitfield.bit11 = (unsigned char) (d[1] & 1);
+        bitfield.bit12 = (unsigned char) (d[0] & 1);
 
         // calculate parity bits
-        unsigned int p1 = bitfield.bit3 ^ bitfield.bit5  ^ bitfield.bit7  ^ bitfield.bit9  ^ bitfield.bit11;
-        unsigned int p2 = bitfield.bit3 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit10 ^ bitfield.bit11;
-        unsigned int p4 = bitfield.bit5 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit12;
-        unsigned int p8 = bitfield.bit9 ^ bitfield.bit10 ^ bitfield.bit11 ^ bitfield.bit12;
+        unsigned char p1 = bitfield.bit3 ^ bitfield.bit5  ^ bitfield.bit7  ^ bitfield.bit9  ^ bitfield.bit11;
+        unsigned char p2 = bitfield.bit3 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit10 ^ bitfield.bit11;
+        unsigned char p4 = bitfield.bit5 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit12;
+        unsigned char p8 = bitfield.bit9 ^ bitfield.bit10 ^ bitfield.bit11 ^ bitfield.bit12;
 
         // assigned parity bits
-        bitfield.bit1 = p1;
-        bitfield.bit2 = p2;
-        bitfield.bit4 = p4;
-        bitfield.bit8 = p8;
+        bitfield.bit1 = (unsigned char) (p1 & 1);;
+        bitfield.bit2 = (unsigned char) (p2 & 1);;
+        bitfield.bit4 = (unsigned char) (p4 & 1);;
+        bitfield.bit8 = (unsigned char) (p8 & 1);;
 
         return bitfield;
 }
@@ -162,51 +174,56 @@ struct bit12 Bit12Encode8Bits(struct bit8 b){
         bitfield.bit12 = b.bit8;
 
         // calculate parity bits
-        unsigned int p1 = bitfield.bit3 ^ bitfield.bit5  ^ bitfield.bit7  ^ bitfield.bit9  ^ bitfield.bit11;
-        unsigned int p2 = bitfield.bit3 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit10 ^ bitfield.bit11;
-        unsigned int p4 = bitfield.bit5 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit12;
-        unsigned int p8 = bitfield.bit9 ^ bitfield.bit10 ^ bitfield.bit11 ^ bitfield.bit12;
+        unsigned char p1 = bitfield.bit3 ^ bitfield.bit5  ^ bitfield.bit7  ^ bitfield.bit9  ^ bitfield.bit11;
+        unsigned char p2 = bitfield.bit3 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit10 ^ bitfield.bit11;
+        unsigned char p4 = bitfield.bit5 ^ bitfield.bit6  ^ bitfield.bit7  ^ bitfield.bit12;
+        unsigned char p8 = bitfield.bit9 ^ bitfield.bit10 ^ bitfield.bit11 ^ bitfield.bit12;
 
         // assigned parity bits
-        bitfield.bit1 = p1;
-        bitfield.bit2 = p2;
-        bitfield.bit4 = p4;
-        bitfield.bit8 = p8;
+        bitfield.bit1 = (unsigned char) (p1 & 1);
+        bitfield.bit2 = (unsigned char) (p2 & 1);
+        bitfield.bit4 = (unsigned char) (p4 & 1);
+        bitfield.bit8 = (unsigned char) (p8 & 1);
 
         return bitfield;
 }
 
 void Bit12DecodeToArray(struct bit12 b, int a[8]){
-        a[7] = b.bit3;
-        a[6] = b.bit5;
-        a[5] = b.bit6;
-        a[4] = b.bit7;
-        a[3] = b.bit9;
-        a[2] = b.bit10;
-        a[1] = b.bit11;
-        a[0] = b.bit12;
+        a[0] = b.bit3;
+        a[1] = b.bit5;
+        a[2] = b.bit6;
+        a[3] = b.bit7;
+        a[4] = b.bit9;
+        a[5] = b.bit10;
+        a[6] = b.bit11;
+        a[7] = b.bit12;
 }
 
 char* Bit12Stringify(struct bit12 b){
         // Allocate a string
-        char* str = (char*)malloc(12 * sizeof(char));
+        char* str = (char*)malloc(16 * sizeof(char));
 
         if (str == NULL) {
                 return NULL;
         }
 
-        str[0]  = (b.bit1  == 0) ? '0' : '1';
-        str[1]  = (b.bit2  == 0) ? '0' : '1';
-        str[2]  = (b.bit3  == 0) ? '0' : '1';
-        str[3]  = (b.bit4  == 0) ? '0' : '1';
-        str[4]  = (b.bit5  == 0) ? '0' : '1';
-        str[5]  = (b.bit6  == 0) ? '0' : '1';
-        str[6]  = (b.bit7  == 0) ? '0' : '1';
-        str[7]  = (b.bit8  == 0) ? '0' : '1';
-        str[8]  = (b.bit9  == 0) ? '0' : '1';
-        str[9]  = (b.bit10 == 0) ? '0' : '1';
-        str[10] = (b.bit11 == 0) ? '0' : '1';
-        str[11] = (b.bit12 == 0) ? '0' : '1';
+        str[0]  = 'x';
+        str[1]  = 'x';
+        str[2]  = 'x';
+        str[3]  = 'x';
+        str[4]  = (b.bit12 == 0) ? '0' : '1';
+        str[5]  = (b.bit11 == 0) ? '0' : '1';
+        str[6]  = (b.bit10 == 0) ? '0' : '1';
+        str[7]  = (b.bit9  == 0) ? '0' : '1';
+        str[8]  = (b.bit8  == 0) ? '0' : '1';
+        str[9]  = (b.bit7  == 0) ? '0' : '1';
+        str[10] = (b.bit6  == 0) ? '0' : '1';
+        str[11] = (b.bit5  == 0) ? '0' : '1';
+        str[12] = (b.bit4  == 0) ? '0' : '1';
+        str[13] = (b.bit3  == 0) ? '0' : '1';
+        str[14] = (b.bit2  == 0) ? '0' : '1';
+        str[15] = (b.bit1  == 0) ? '0' : '1';
+
 
         return str;
 }
@@ -290,20 +307,21 @@ uint16_t Bit12ToUint16(struct bit12 b) {
 // bit 8
 char* Bit8Stringify(struct bit8 b) {
         // Allocate a string
-        char* str = (char*)malloc(8 * sizeof(char));
+        char* str = (char*)malloc( 9 * sizeof(char));
 
         if (str == NULL) {
                 return NULL;
         }
 
-        str[0] = (b.bit1 == 0) ? '0' : '1';
-        str[1] = (b.bit2 == 0) ? '0' : '1';
-        str[2] = (b.bit3 == 0) ? '0' : '1';
-        str[3] = (b.bit4 == 0) ? '0' : '1';
+        str[0] = 'x';
+        str[1] = (b.bit8 == 0) ? '0' : '1';
+        str[2] = (b.bit7 == 0) ? '0' : '1';
+        str[3] = (b.bit6 == 0) ? '0' : '1';
         str[4] = (b.bit5 == 0) ? '0' : '1';
-        str[5] = (b.bit6 == 0) ? '0' : '1';
-        str[6] = (b.bit7 == 0) ? '0' : '1';
-        str[7] = (b.bit8 == 0) ? '0' : '1';
+        str[5] = (b.bit4 == 0) ? '0' : '1';
+        str[6] = (b.bit3 == 0) ? '0' : '1';
+        str[7] = (b.bit2 == 0) ? '0' : '1';
+        str[8] = (b.bit1 == 0) ? '0' : '1';
 
         return str;
 }
@@ -341,41 +359,42 @@ int Bit8Compare(struct bit8 b0, struct bit8 b1) {
         return 1;     
 }
 
-struct bit8 Bit8FromArray(unsigned int d[8]) {
+struct bit8 Bit8FromArray(unsigned char d[8])
+{
         struct bit8 b8;
-        b8.bit8 = d[0];
-        b8.bit7 = d[1];
-        b8.bit6 = d[2];
-        b8.bit5 = d[3];
-        b8.bit4 = d[4];
-        b8.bit3 = d[5];
-        b8.bit2 = d[6];
-        b8.bit1 = d[7];
+        b8.bit8 = (unsigned char) (d[0] & 1);
+        b8.bit7 = (unsigned char) (d[1] & 1);
+        b8.bit6 = (unsigned char) (d[2] & 1);
+        b8.bit5 = (unsigned char) (d[3] & 1);
+        b8.bit4 = (unsigned char) (d[4] & 1);
+        b8.bit3 = (unsigned char) (d[5] & 1);
+        b8.bit2 = (unsigned char) (d[6] & 1);
+        b8.bit1 = (unsigned char) (d[7] & 1);
        return b8;
 }
 
 struct bit8 Bit8FromUnsigned8Bit(uint8_t u) {
         struct bit8 b8;
-        b8.bit8 = u & 1;
-        b8.bit7 = (u >> 1) & 1;
-        b8.bit6 = (u >> 2) & 1;
-        b8.bit5 = (u >> 3) & 1;
-        b8.bit4 = (u >> 4) & 1;
-        b8.bit3 = (u >> 5) & 1;
-        b8.bit2 = (u >> 6) & 1;
-        b8.bit1 = (u >> 7) & 1;
+        b8.bit1 = u & 1;
+        b8.bit2 = (u >> 1) & 1;
+        b8.bit3 = (u >> 2) & 1;
+        b8.bit4 = (u >> 3) & 1;
+        b8.bit5 = (u >> 4) & 1;
+        b8.bit6 = (u >> 5) & 1;
+        b8.bit7 = (u >> 6) & 1;
+        b8.bit8 = (u >> 7) & 1;
         return b8;
 }
 
 uint8_t Bit8ToUint8(struct bit8 b) {
         uint8_t u8 = 0;
-        u8 = u8 | b.bit1 << 7;
-        u8 = u8 | b.bit2 << 6;
-        u8 = u8 | b.bit3 << 5;
-        u8 = u8 | b.bit4 << 4;
-        u8 = u8 | b.bit5 << 3;
-        u8 = u8 | b.bit6 << 2;
-        u8 = u8 | b.bit7 << 1;
-        u8 = u8 | b.bit8 << 0;
+        u8 = u8 | b.bit8 << 7;
+        u8 = u8 | b.bit7 << 6;
+        u8 = u8 | b.bit6 << 5;
+        u8 = u8 | b.bit5 << 4;
+        u8 = u8 | b.bit4 << 3;
+        u8 = u8 | b.bit3 << 2;
+        u8 = u8 | b.bit2 << 1;
+        u8 = u8 | b.bit1 << 0;
         return u8;
 }
