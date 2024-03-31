@@ -63,6 +63,7 @@ char* Bit12Stringify(struct bit12 b);
 void Bit12StringifyDestroy(char* str);
 void Bit12DecodeToArray(struct bit12 b, int a[8]);
 struct bit8 Bit12DecodeToStructBit8 (struct bit12 b);
+uint16_t Bit12ToUint16(struct bit12 b); // TODO(Joan) convert to uint16_t
 void Bit12MutateRandomBit(struct bit12 *b);
 void Bit12MutateXBit(struct bit12 *b, int x);
 
@@ -84,8 +85,5 @@ void Bit8StringifyDestroy(char* str);
 int Bit8Compare(struct bit8 b0, struct bit8 b1);
 struct bit8 Bit8FromArray(unsigned char d[8]);
 struct bit8 Bit8FromUnsigned8Bit(uint8_t u);
-
 uint8_t Bit8ToUint8(struct bit8 b);
-uint16_t Bit12ToUint16(struct bit12 b); // TODO(Joan) convert to uint16_t
-
 #endif
