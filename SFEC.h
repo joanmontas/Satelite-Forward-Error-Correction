@@ -34,8 +34,7 @@ void Bit7StringifyDestroy(char* str);
 void Bit7DecodeToArray(struct bit7 b, unsigned char a[4]);
 void Bit7MutateRandomBit(struct bit7 *b);
 void Bit7MutateXBit(struct bit7 *b, int x);
-uint8_t Bit7ToUint8(struct bit7 b);
-
+void Bit7FixMutation(struct bit7 *b);
 
 // bit12: nb = 12, m = 8, p = 4
 struct bit12 {
@@ -61,11 +60,12 @@ struct bit12 Bit12Encode8Bits(struct bit8 b);
 unsigned int Bit12ErrorLocation(struct bit12 b);
 char* Bit12Stringify(struct bit12 b);
 void Bit12StringifyDestroy(char* str);
-void Bit12DecodeToArray(struct bit12 b, int a[8]);
+void Bit12DecodeToArray(struct bit12 b, unsigned char a[8]);
 struct bit8 Bit12DecodeToStructBit8 (struct bit12 b);
 uint16_t Bit12ToUint16(struct bit12 b); // TODO(Joan) convert to uint16_t
 void Bit12MutateRandomBit(struct bit12 *b);
 void Bit12MutateXBit(struct bit12 *b, int x);
+void Bit12FixMutation(struct bit12 *b);
 
 // helper //
 // bit8
@@ -81,9 +81,10 @@ struct bit8{
 };
 char* Bit8Stringify(struct bit8 b);
 void Bit8StringifyDestroy(char* str);
-// char Bit8ToChar(struct bit8 b);      // TODO(Joan) Create Bit8ToChar - Joan
 int Bit8Compare(struct bit8 b0, struct bit8 b1);
 struct bit8 Bit8FromArray(unsigned char d[8]);
-struct bit8 Bit8FromUnsigned8Bit(uint8_t u);
-uint8_t Bit8ToUint8(struct bit8 b);
+struct bit8 Bit8FromUnsigned8Bit(uint8_t u); // TODO(Joan) test - Joan
+uint8_t Bit8ToUnsigned8Bit(struct bit8 b); // TODO(Joan) test - Joan
+uint8_t Bit7ToUnsigned8(struct bit7 b); // TODO(Joan) test - Joan
+
 #endif

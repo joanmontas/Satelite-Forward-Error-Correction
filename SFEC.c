@@ -105,18 +105,13 @@ void Bit7MutateXBit(struct bit7 *b, int x) {
         }
 }
 
-uint8_t Bit7ToUint8(struct bit7 b) {
-        uint8_t u8 = 0;
-        u8 = u8 | b.bit1 << 7;
-        u8 = u8 | b.bit2 << 6;
-        u8 = u8 | b.bit3 << 5;
-        u8 = u8 | b.bit4 << 4;
-        u8 = u8 | b.bit5 << 3;
-        u8 = u8 | b.bit6 << 2;
-        u8 = u8 | b.bit7 << 1;
-        return u8;
+void Bit7FixMutation(struct bit7 *b) {
+        unsigned int errLoc = 0;
+        errLoc = Bit7ErrorLocation(*b);
+        Bit7MutateXBit(b, (int)errLoc);
 }
 
+// 12 8
 struct bit12 Bit12Encode(unsigned char d[]){
         struct bit12 bitfield;
 
@@ -188,15 +183,15 @@ struct bit12 Bit12Encode8Bits(struct bit8 b){
         return bitfield;
 }
 
-void Bit12DecodeToArray(struct bit12 b, int a[8]){
-        a[0] = b.bit3;
-        a[1] = b.bit5;
-        a[2] = b.bit6;
-        a[3] = b.bit7;
-        a[4] = b.bit9;
-        a[5] = b.bit10;
-        a[6] = b.bit11;
-        a[7] = b.bit12;
+void Bit12DecodeToArray(struct bit12 b, unsigned char a[8]){
+        a[7] = b.bit3;
+        a[6] = b.bit5;
+        a[5] = b.bit6;
+        a[4] = b.bit7;
+        a[3] = b.bit9;
+        a[2] = b.bit10;
+        a[1] = b.bit11;
+        a[0] = b.bit12;
 }
 
 char* Bit12Stringify(struct bit12 b){
@@ -287,6 +282,7 @@ struct bit8 Bit12DecodeToStructBit8 (struct bit12 b){
         b8.bit8 = b.bit12;
         return b8;
 }
+
 uint16_t Bit12ToUint16(struct bit12 b) {
         uint16_t u16 = 0;
         u16 = u16 | b.bit1 << 11;
@@ -304,6 +300,12 @@ uint16_t Bit12ToUint16(struct bit12 b) {
         return u16;
 }
 
+void Bit12FixMutation(struct bit12 *b) {
+        unsigned int errLoc = 0;
+        errLoc = Bit12ErrorLocation(*b);
+        Bit12MutateXBit(b, (int)errLoc);
+}
+
 // bit 8
 char* Bit8Stringify(struct bit8 b) {
         // Allocate a string
@@ -313,15 +315,14 @@ char* Bit8Stringify(struct bit8 b) {
                 return NULL;
         }
 
-        str[0] = 'x';
-        str[1] = (b.bit8 == 0) ? '0' : '1';
-        str[2] = (b.bit7 == 0) ? '0' : '1';
-        str[3] = (b.bit6 == 0) ? '0' : '1';
-        str[4] = (b.bit5 == 0) ? '0' : '1';
-        str[5] = (b.bit4 == 0) ? '0' : '1';
-        str[6] = (b.bit3 == 0) ? '0' : '1';
-        str[7] = (b.bit2 == 0) ? '0' : '1';
-        str[8] = (b.bit1 == 0) ? '0' : '1';
+        str[0] = (b.bit8 == 0) ? '0' : '1';
+        str[1] = (b.bit7 == 0) ? '0' : '1';
+        str[2] = (b.bit6 == 0) ? '0' : '1';
+        str[3] = (b.bit5 == 0) ? '0' : '1';
+        str[4] = (b.bit4 == 0) ? '0' : '1';
+        str[5] = (b.bit3 == 0) ? '0' : '1';
+        str[6] = (b.bit2 == 0) ? '0' : '1';
+        str[7] = (b.bit1 == 0) ? '0' : '1';
 
         return str;
 }
@@ -386,7 +387,7 @@ struct bit8 Bit8FromUnsigned8Bit(uint8_t u) {
         return b8;
 }
 
-uint8_t Bit8ToUint8(struct bit8 b) {
+uint8_t Bit8ToUnsigned8Bit(struct bit8 b) {
         uint8_t u8 = 0;
         u8 = u8 | b.bit8 << 7;
         u8 = u8 | b.bit7 << 6;
@@ -396,5 +397,17 @@ uint8_t Bit8ToUint8(struct bit8 b) {
         u8 = u8 | b.bit3 << 2;
         u8 = u8 | b.bit2 << 1;
         u8 = u8 | b.bit1 << 0;
+        return u8;
+}
+
+uint8_t Bit7ToUnsigned8(struct bit7 b) {
+        uint8_t u8 = 0;
+        u8 = u8 | b.bit1 << 7;
+        u8 = u8 | b.bit2 << 6;
+        u8 = u8 | b.bit3 << 5;
+        u8 = u8 | b.bit4 << 4;
+        u8 = u8 | b.bit5 << 3;
+        u8 = u8 | b.bit6 << 2;
+        u8 = u8 | b.bit7 << 1;
         return u8;
 }

@@ -1,4 +1,6 @@
 #include "testSFEC-7-3.h"
+#include "SFEC.h"
+#include <CUnit/CUnit.h>
 
 // base test for bit7
 void testBit7Encode0000() {
@@ -237,4 +239,75 @@ void testBit7RandomMutation() {
         struct bit7 encoded = Bit7Encode(inputData);
         Bit7MutateXBit(&encoded, x);
         CU_ASSERT(Bit7ErrorLocation(encoded) == x);
+}
+
+void tesBit7ErrorLocation() {
+        // test error location of all possible 4 bit data and 7 possible error
+        struct bit7 b7;
+        unsigned char arrIn[4];
+        unsigned int errLoc;
+
+        for(size_t i = 0u; i < 16u; i++) {
+                for (size_t j = 0u; j < 4u; j++) {
+                        arrIn[3 - j] = (i >> j) & 1;
+                }
+
+                for (int x = 1; x < 8; x++) {
+                        b7 = Bit7Encode(arrIn);
+
+                        Bit7MutateXBit(&b7, x);
+
+                        errLoc = Bit7ErrorLocation(b7);
+                        CU_ASSERT(errLoc = (unsigned int)x);
+                }
+        }
+}
+
+void testBit7DecodeToArray() {
+        // test all possible encoded numbers, decoded into an array
+        unsigned char arrIn[4];
+        unsigned char arrOut[4];
+        struct bit7 b7;
+        for(size_t i = 0u; i < 16u; i++) {
+                for (size_t j = 0u; j < 4u; j++) {
+                        arrIn[3 - j] = (i >> j) & 1;
+                }
+
+                b7 = Bit7Encode(arrIn);
+                Bit7DecodeToArray(b7, arrOut);
+
+                CU_ASSERT((arrIn[0] == arrOut[0]) == 1);
+                CU_ASSERT((arrIn[1] == arrOut[1]) == 1);
+                CU_ASSERT((arrIn[2] == arrOut[2]) == 1);
+                CU_ASSERT((arrIn[3] == arrOut[3]) == 1);
+        }
+}
+
+void testBit7FixMutation() {
+        // fix all possible error of all possible number encoding
+        struct bit7 b7;
+        unsigned char arrIn[4];
+        unsigned char arrOut[4];
+        unsigned int errLoc;
+
+        for(size_t i = 0u; i < 16u; i++) {
+                for (size_t j = 0u; j < 4u; j++) {
+                        arrIn[3 - j] = (i >> j) & 1;
+                }
+
+                for (int x = 1; x < 8; x++) {
+                        b7 = Bit7Encode(arrIn);
+
+                        Bit7MutateXBit(&b7, x);
+
+                        Bit7FixMutation(&b7);
+
+                        Bit7DecodeToArray(b7, arrOut);
+
+                        CU_ASSERT((arrIn[0] == arrOut[0]) == 1);
+                        CU_ASSERT((arrIn[1] == arrOut[1]) == 1);
+                        CU_ASSERT((arrIn[2] == arrOut[2]) == 1);
+                        CU_ASSERT((arrIn[3] == arrOut[3]) == 1);
+                }
+        }  
 }

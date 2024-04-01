@@ -9,4 +9,6 @@
 #include "SFEC.h"
 void testBit12Mutations();
 void testBi12EncodeDecode();
+void testBit12FixMutationArray();
+void testBit12FixMutationUint8();
 #endif

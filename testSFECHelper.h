@@ -9,5 +9,9 @@
 #include <stdint.h>
 #include <CUnit/Basic.h>
 #include "SFEC.h"
-void testUnsigned8ToBit8();
+void testBit8FromUnsigned8();
+void testBit8FromArray();
+void testBit8ToUnsigned8Bit();
+void testBit8Compare();
+void testBit8Stringify();
 #endif
