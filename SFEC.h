@@ -67,7 +67,7 @@ void Bit12MutateXBit(struct bit12 *b, int x); // mutate
 void Bit12FixMutation(struct bit12 *b); //fix mutation
 char* Bit12Stringify(struct bit12 b); // stringify
 void Bit12StringifyDestroy(char* str); // stringify
-uint16_t Bit12ToUint16(struct bit12 b); // TODO(Joan) convert to uint16_t
+uint16_t Bit12ToUint16(struct bit12 b); // conversion
 
 // helper //
 // bit8
