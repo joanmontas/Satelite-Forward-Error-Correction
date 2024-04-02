@@ -29,4 +29,6 @@ void testBit7RandomMutation();
 void tesBit7ErrorLocation();
 void testBit7DecodeToArray();
 void testBit7FixMutation();
+void testBit7ToUnsigned8();
+void testBit7Stringify();
 #endif

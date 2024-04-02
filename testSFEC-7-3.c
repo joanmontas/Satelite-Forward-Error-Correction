@@ -311,3 +311,64 @@ void testBit7FixMutation() {
                 }
         }  
 }
+
+void testBit7ToUnsigned8() {
+        // TODO(Joan) test - Joan
+        // 2** 7 = 128
+        uint8_t u8 = 0u;
+        uint8_t u8Prime = 0u;
+        struct bit7 b7;
+        for (uint8_t i = 0u; i < 128u; i++) {
+                // manually insert bits
+                u8 = 0u;
+                u8Prime = 0u;
+                b7.bit1 = i & 1;
+                b7.bit2 = (i >> 1) & 1;
+                b7.bit3 = (i >> 2) & 1;
+                b7.bit4 = (i >> 3) & 1;
+                b7.bit5 = (i >> 4) & 1;
+                b7.bit6 = (i >> 5) & 1;
+                b7.bit7 = (i >> 6) & 1;
+
+                // test convertion
+                u8 = Bit7ToUnsigned8(b7);
+                CU_ASSERT(u8 == i);
+
+                // manually test convertion
+                u8Prime = 1u * b7.bit1;
+                u8Prime += 2u * b7.bit2;
+                u8Prime += 4u * b7.bit3;
+                u8Prime += 8u * b7.bit4;
+                u8Prime += 16u * b7.bit5;
+                u8Prime += 32u * b7.bit6;
+                u8Prime += 64u * b7.bit7;
+                CU_ASSERT(u8 == u8Prime);
+        }
+}
+
+void testBit7Stringify() {
+        // test all string conversion of 7 bits
+
+        char* str0;
+        struct bit7 b7;
+        for (uint8_t i = 0; i < 128u; i++) {
+                b7.bit1 = i & 1;
+                b7.bit2 = (i >> 1) & 1;
+                b7.bit3 = (i >> 2) & 1;
+                b7.bit4 = (i >> 3) & 1;
+                b7.bit5 = (i >> 4) & 1;
+                b7.bit6 = (i >> 5) & 1;
+                b7.bit7 = (i >> 6) & 1;
+                str0 = Bit7Stringify(b7);
+
+                CU_ASSERT(b7.bit1 == (str0[6]) - '0');
+                CU_ASSERT(b7.bit2 == (str0[5]) - '0');
+                CU_ASSERT(b7.bit3 == (str0[4]) - '0');
+                CU_ASSERT(b7.bit4 == (str0[3]) - '0');
+                CU_ASSERT(b7.bit5 == (str0[2]) - '0');
+                CU_ASSERT(b7.bit6 == (str0[1]) - '0');
+                CU_ASSERT(b7.bit7 == (str0[0]) - '0');
+
+                Bit8StringifyDestroy(str0);
+        }
+}

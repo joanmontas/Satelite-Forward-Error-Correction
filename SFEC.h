@@ -27,14 +27,16 @@ struct bit7{
         unsigned char bit2 : 1;
         unsigned char bit1 : 1; // LSB
 };
-struct bit7 Bit7Encode(unsigned char d[]);
-unsigned int Bit7ErrorLocation(struct bit7 b);
-char* Bit7Stringify(struct bit7 b);
-void Bit7StringifyDestroy(char* str);
-void Bit7DecodeToArray(struct bit7 b, unsigned char a[4]);
-void Bit7MutateRandomBit(struct bit7 *b);
-void Bit7MutateXBit(struct bit7 *b, int x);
-void Bit7FixMutation(struct bit7 *b);
+struct bit7 Bit7Encode(unsigned char d[]); // encode
+
+void Bit7DecodeToArray(struct bit7 b, unsigned char a[4]); // decode
+unsigned int Bit7ErrorLocation(struct bit7 b); // error detection
+void Bit7MutateRandomBit(struct bit7 *b); // mutation
+void Bit7MutateXBit(struct bit7 *b, int x); // mutation
+void Bit7FixMutation(struct bit7 *b); // fix mutation
+char* Bit7Stringify(struct bit7 b); // stringify
+void Bit7StringifyDestroy(char* str); // stringify
+uint8_t Bit7ToUnsigned8(struct bit7 b); // to 8 bits
 
 // bit12: nb = 12, m = 8, p = 4
 struct bit12 {
@@ -55,17 +57,17 @@ struct bit12 {
         unsigned char bit15 : 1; // PAD
         unsigned char bit16 : 1; // PAD
 };
-struct bit12 Bit12Encode(unsigned char d[]);
-struct bit12 Bit12Encode8Bits(struct bit8 b);
-unsigned int Bit12ErrorLocation(struct bit12 b);
-char* Bit12Stringify(struct bit12 b);
-void Bit12StringifyDestroy(char* str);
-void Bit12DecodeToArray(struct bit12 b, unsigned char a[8]);
-struct bit8 Bit12DecodeToStructBit8 (struct bit12 b);
+struct bit12 Bit12EncodeUnsignedCharArray(unsigned char d[12]); // encode
+struct bit12 Bit12Encode8Bits(struct bit8 b); // encode
+void Bit12DecodeToArray(struct bit12 b, unsigned char a[8]); // decode
+struct bit8 Bit12DecodeToStructBit8 (struct bit12 b); // decode
+unsigned int Bit12ErrorLocation(struct bit12 b); // error detection
+void Bit12MutateRandomBit(struct bit12 *b); // mutate
+void Bit12MutateXBit(struct bit12 *b, int x); // mutate
+void Bit12FixMutation(struct bit12 *b); //fix mutation
+char* Bit12Stringify(struct bit12 b); // stringify
+void Bit12StringifyDestroy(char* str); // stringify
 uint16_t Bit12ToUint16(struct bit12 b); // TODO(Joan) convert to uint16_t
-void Bit12MutateRandomBit(struct bit12 *b);
-void Bit12MutateXBit(struct bit12 *b, int x);
-void Bit12FixMutation(struct bit12 *b);
 
 // helper //
 // bit8
@@ -83,8 +85,7 @@ char* Bit8Stringify(struct bit8 b);
 void Bit8StringifyDestroy(char* str);
 int Bit8Compare(struct bit8 b0, struct bit8 b1);
 struct bit8 Bit8FromArray(unsigned char d[8]);
-struct bit8 Bit8FromUnsigned8Bit(uint8_t u); // TODO(Joan) test - Joan
-uint8_t Bit8ToUnsigned8Bit(struct bit8 b); // TODO(Joan) test - Joan
-uint8_t Bit7ToUnsigned8(struct bit7 b); // TODO(Joan) test - Joan
+struct bit8 Bit8FromUnsigned8Bit(uint8_t u);
+uint8_t Bit8ToUnsigned8Bit(struct bit8 b);
 
 #endif

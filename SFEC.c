@@ -112,7 +112,8 @@ void Bit7FixMutation(struct bit7 *b) {
 }
 
 // 12 8
-struct bit12 Bit12Encode(unsigned char d[]){
+struct bit12 Bit12EncodeUnsignedCharArray(unsigned char d[12]) {
+
         struct bit12 bitfield;
 
         /*
@@ -196,28 +197,25 @@ void Bit12DecodeToArray(struct bit12 b, unsigned char a[8]){
 
 char* Bit12Stringify(struct bit12 b){
         // Allocate a string
-        char* str = (char*)malloc(16 * sizeof(char));
+        char* str = (char*)malloc(12 * sizeof(char));
 
         if (str == NULL) {
                 return NULL;
         }
 
-        str[0]  = 'x';
-        str[1]  = 'x';
-        str[2]  = 'x';
-        str[3]  = 'x';
-        str[4]  = (b.bit12 == 0) ? '0' : '1';
-        str[5]  = (b.bit11 == 0) ? '0' : '1';
-        str[6]  = (b.bit10 == 0) ? '0' : '1';
-        str[7]  = (b.bit9  == 0) ? '0' : '1';
-        str[8]  = (b.bit8  == 0) ? '0' : '1';
-        str[9]  = (b.bit7  == 0) ? '0' : '1';
-        str[10] = (b.bit6  == 0) ? '0' : '1';
-        str[11] = (b.bit5  == 0) ? '0' : '1';
-        str[12] = (b.bit4  == 0) ? '0' : '1';
-        str[13] = (b.bit3  == 0) ? '0' : '1';
-        str[14] = (b.bit2  == 0) ? '0' : '1';
-        str[15] = (b.bit1  == 0) ? '0' : '1';
+
+        str[0]  = (b.bit12 == 0) ? '0' : '1';
+        str[1]  = (b.bit11 == 0) ? '0' : '1';
+        str[2]  = (b.bit10 == 0) ? '0' : '1';
+        str[3]  = (b.bit9  == 0) ? '0' : '1';
+        str[4]  = (b.bit8  == 0) ? '0' : '1';
+        str[5]  = (b.bit7  == 0) ? '0' : '1';
+        str[6]  = (b.bit6  == 0) ? '0' : '1';
+        str[7]  = (b.bit5  == 0) ? '0' : '1';
+        str[8]  = (b.bit4  == 0) ? '0' : '1';
+        str[9]  = (b.bit3  == 0) ? '0' : '1';
+        str[10] = (b.bit2  == 0) ? '0' : '1';
+        str[11] = (b.bit1  == 0) ? '0' : '1';
 
 
         return str;
@@ -402,12 +400,12 @@ uint8_t Bit8ToUnsigned8Bit(struct bit8 b) {
 
 uint8_t Bit7ToUnsigned8(struct bit7 b) {
         uint8_t u8 = 0;
-        u8 = u8 | b.bit1 << 7;
-        u8 = u8 | b.bit2 << 6;
-        u8 = u8 | b.bit3 << 5;
-        u8 = u8 | b.bit4 << 4;
-        u8 = u8 | b.bit5 << 3;
-        u8 = u8 | b.bit6 << 2;
-        u8 = u8 | b.bit7 << 1;
+        u8 = u8 | b.bit1 << 0;
+        u8 = u8 | b.bit2 << 1;
+        u8 = u8 | b.bit3 << 2;
+        u8 = u8 | b.bit4 << 3;
+        u8 = u8 | b.bit5 << 4;
+        u8 = u8 | b.bit6 << 5;
+        u8 = u8 | b.bit7 << 6;
         return u8;
 }

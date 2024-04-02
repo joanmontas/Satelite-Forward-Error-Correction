@@ -4,8 +4,10 @@
 
 #include "testSFECHelper.h"
 #include "SFEC.h"
+#include <CUnit/CUnit.h>
+#include <stdint.h>
 
-void testBit8FromUnsigned8(){
+void testBit8FromUnsigned8Bit(){
         // test all possible convertion of 8 bits
         uint8_t u8;
         uint8_t u8Prime;

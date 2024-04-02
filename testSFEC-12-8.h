@@ -7,8 +7,13 @@
 #include <stdio.h>
 #include <CUnit/Basic.h>
 #include "SFEC.h"
+
 void testBit12Mutations();
-void testBi12EncodeDecode();
+void testBit12Encode8BitsBit12DecodeToStructBit8();
+void testBit12EncodeUnsignedCharArrayBit12DecodeToStructBit8();
 void testBit12FixMutationArray();
 void testBit12FixMutationUint8();
+void testBit12Stringify();
+void testBit12ToUint16();
+
 #endif

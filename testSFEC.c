@@ -17,7 +17,7 @@ int main() {
 
         // helper
         CU_pSuite suiteHelper = CU_add_suite("sfecTest helper", NULL, NULL);
-        CU_add_test(suiteHelper, "Test helper Bit8FromUnsigned8Bi", testBit8FromUnsigned8);
+        CU_add_test(suiteHelper, "Test helper Bit8FromUnsigned8Bit", testBit8FromUnsigned8Bit);
         CU_add_test(suiteHelper, "Test helper Bit8FromArray", testBit8FromArray);
         CU_add_test(suiteHelper, "Test helper Bit8ToUnsigned8Bit", testBit8ToUnsigned8Bit);
         CU_add_test(suiteHelper, "Test helper Bit8Compare", testBit8Compare);
@@ -45,13 +45,17 @@ int main() {
         CU_add_test(suite74, "Test testBit7DecodeToArray", testBit7DecodeToArray);
         CU_add_test(suite74, "Test tesBit7ErrorLocation", tesBit7ErrorLocation);
         CU_add_test(suite74, "Test testBit7FixMutation", testBit7FixMutation);
+        CU_add_test(suite74, "Test testBit7ToUnsigned8", testBit7ToUnsigned8);
+        CU_add_test(suite74, "Test testBit7Stringify", testBit7Stringify);
 
         // 12 8
         CU_pSuite suite128 = CU_add_suite("sfecTest 12 8", NULL, NULL);
-        CU_add_test(suite128, "Test Econde Bit12XXXXXXXX", testBi12EncodeDecode);
+        CU_add_test(suite128, "Test testBit12Encode8BitsBit12DecodeToStructBit8", testBit12Encode8BitsBit12DecodeToStructBit8);
+        CU_add_test(suite128, "Test testBit12EncodeUnsignedCharArrayBit12DecodeToStructBit8", testBit12EncodeUnsignedCharArrayBit12DecodeToStructBit8);
         CU_add_test(suite128, "Test B12 Random Mutation Detection", testBit12Mutations);
         CU_add_test(suite128, "Test testBit12FixMutationArray", testBit12FixMutationArray);
         CU_add_test(suite128, "Test testBit12FixMutationUint8", testBit12FixMutationUint8);
+        CU_add_test(suite128, "Test testBit12Stringify", testBit12Stringify);
 
         CU_basic_set_mode(CU_BRM_VERBOSE);
         CU_basic_run_tests();
