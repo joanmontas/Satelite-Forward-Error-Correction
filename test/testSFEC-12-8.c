@@ -3,7 +3,7 @@
 // License under GNU General Public License v3.0
 
 #include "testSFEC-12-8.h"
-#include "SFEC.h"
+#include "../src/SFEC.h"
 #include <stdint.h>
 
 void testBit12EncodeUnsignedCharArrayBit12DecodeToStructBit8() {

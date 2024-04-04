@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <CUnit/Basic.h>
-#include "SFEC.h"
+#include "../src/SFEC.h"
 
 void testBit7Encode0000();
 void testBit7Encode0001();

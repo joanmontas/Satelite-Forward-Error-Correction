@@ -298,10 +298,44 @@ uint16_t Bit12ToUint16(struct bit12 b) {
         return u16;
 }
 
+struct bit12 Bit12FromUint16(uint16_t u16) {
+        struct bit12 b12;
+        b12.bit1  = u16 & 1;
+        b12.bit2  = (u16 >> 1) & 1;
+        b12.bit3  = (u16 >> 2) & 1;
+        b12.bit4  = (u16 >> 3) & 1;
+        b12.bit5  = (u16 >> 4) & 1;
+        b12.bit6  = (u16 >> 5) & 1;
+        b12.bit7  = (u16 >> 6) & 1;
+        b12.bit8  = (u16 >> 7) & 1;
+        b12.bit9  = (u16 >> 8) & 1;
+        b12.bit10 = (u16 >> 9) & 1;
+        b12.bit11 = (u16 >> 10) & 1;
+        b12.bit12 = (u16 >> 11) & 1;
+        return b12;
+}
+
 void Bit12FixMutation(struct bit12 *b) {
         unsigned int errLoc = 0;
         errLoc = Bit12ErrorLocation(*b);
         Bit12MutateXBit(b, (int)errLoc);
+}
+
+struct bit12 Bit12EndiannessReverse(struct bit12 b12) {
+        struct bit12 b12Prime;
+        b12Prime.bit1  = b12.bit12;
+        b12Prime.bit2  = b12.bit11;
+        b12Prime.bit3  = b12.bit10;
+        b12Prime.bit4  = b12.bit9;
+        b12Prime.bit5  = b12.bit8;
+        b12Prime.bit6  = b12.bit7;
+        b12Prime.bit7  = b12.bit6;
+        b12Prime.bit8  = b12.bit5;
+        b12Prime.bit9  = b12.bit4;
+        b12Prime.bit10 = b12.bit3;
+        b12Prime.bit11 = b12.bit2;
+        b12Prime.bit12 = b12.bit1;
+        return b12Prime;
 }
 
 // bit 8

@@ -6,7 +6,7 @@
 #define TESTSFEC_12_8_H
 #include <stdio.h>
 #include <CUnit/Basic.h>
-#include "SFEC.h"
+#include "../src/SFEC.h"
 
 void testBit12Mutations();
 void testBit12Encode8BitsBit12DecodeToStructBit8();

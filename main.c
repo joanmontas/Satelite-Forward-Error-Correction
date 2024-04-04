@@ -4,77 +4,34 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "SFEC.h"
+#include <stdint.h>
+#include "src/SFEC.h"
+#include "radiationGuard/radiationGuard.h"
 
-int main(int argc, char **argv) {
+int main() {
+        // input files
+        char* input_file = "input.txt";
+        char* SFEC_file = "input.txt.SFEC";
+        char* output_file = "corrected.txt";
+
+        // radiation randomization
         srand(time(NULL));
 
-        // Input
-        unsigned int data[] = {1,1,1,0,1,0,0, 1};
-
-	struct bit12 encoded = Bit12Encode(data);
-
-        // View Output
-        char* str0 = Bit12Stringify(encoded);
-        if (str0 == NULL) {
-                exit(1);
-        }
-        printf("Encoded %s\n", str0);
-        Bit12StringifyDestroy(str0);
-
-        // Bit7MutateRandomBit(&encoded);
-        encoded.bit8 = ~(encoded.bit8);
-
-        // View Altered Data
-        char* str1 = Bit12Stringify(encoded);
-        printf("Altered-Encoded %s\n", str1);
-        Bit12StringifyDestroy(str1);
-        if (str1 == NULL) {
-                exit(1);
+        printf("Upcoming radiation storm detected. Guarding our data!\n");
+        if (!radiation_guard(input_file)) {
+                return 1;
         }
 
-        // Get location of Error
-        unsigned int error = Bit12ErrorLocation(encoded);
-
-        if (error) {
-                printf("Error was found in bit-%d\n", error);
-        } else {
-                printf("(Possibly) No error found!\n");
+        printf("AH! RADIATION\n");
+        printf("        #^4#$48#$5@#$&4^*^@$^/R\n");
+        if (!radiation_storm(SFEC_file)) {
+                return 1;
         }
 
-        printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
-                // Input
-        struct bit8 dataBit8 = {1,1,1,0,1,0,0, 1};
-
-	struct bit12 encodedBit12 = Bit12Encode8Bits(dataBit8);
-
-        // View Output
-        str0 = Bit12Stringify(encodedBit12);
-        if (str0 == NULL) {
-                exit(1);
-        }
-        printf("Encoded %s\n", str0);
-        Bit12StringifyDestroy(str0);
-
-        // Bit7MutateRandomBit(&encoded);
-        encodedBit12.bit8 = ~(encodedBit12.bit8);
-
-        // View Altered Data
-        str1 = Bit12Stringify(encodedBit12);
-        printf("Altered-Encoded %s\n", str1);
-        Bit12StringifyDestroy(str1);
-        if (str1 == NULL) {
-                exit(1);
+        printf("Un-guarding the data. It is untouched! Check the files!\n");
+        if (!radiation_un_guard(SFEC_file, output_file)) {
+                return 1;
         }
 
-        // Get location of Error
-        error = Bit12ErrorLocation(encodedBit12);
-
-        if (error) {
-                printf("Error was found in bit-%d\n", error);
-        } else {
-                printf("(Possibly) No error found!\n");
-        }
         return 0;
 }

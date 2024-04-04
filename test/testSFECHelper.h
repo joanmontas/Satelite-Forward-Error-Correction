@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <CUnit/Basic.h>
-#include "SFEC.h"
+#include "../src/SFEC.h"
 void testBit8FromUnsigned8Bit();
 void testBit8FromArray();
 void testBit8ToUnsigned8Bit();

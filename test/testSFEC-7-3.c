@@ -1,5 +1,5 @@
 #include "testSFEC-7-3.h"
-#include "SFEC.h"
+#include "../src/SFEC.h"
 #include <CUnit/CUnit.h>
 
 // base test for bit7

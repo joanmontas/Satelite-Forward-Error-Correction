@@ -3,7 +3,7 @@
 // License under GNU General Public License v3.0
 
 #include "testSFECHelper.h"
-#include "SFEC.h"
+#include "../src/SFEC.h"
 #include <CUnit/CUnit.h>
 #include <stdint.h>
 

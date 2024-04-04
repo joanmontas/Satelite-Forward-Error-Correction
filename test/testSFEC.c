@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <CUnit/Basic.h>
-#include "SFEC.h"
+#include "../src/SFEC.h"
 #include "testSFEC-12-8.h"
 #include "testSFEC-7-3.h"
 #include "testSFECHelper.h"

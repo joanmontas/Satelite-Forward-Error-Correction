@@ -40,15 +40,15 @@ uint8_t Bit7ToUnsigned8(struct bit7 b); // to 8 bits
 
 // bit12: nb = 12, m = 8, p = 4
 struct bit12 {
-        unsigned char bit1: 1; // LSB
-        unsigned char bit2: 1;
-        unsigned char bit3: 1;
-        unsigned char bit4: 1;
-        unsigned char bit5: 1;
-        unsigned char bit6: 1;
-        unsigned char bit7: 1;
-        unsigned char bit8 : 1;
-        unsigned char bit9 : 1;
+        unsigned char bit1  : 1; // LSB
+        unsigned char bit2  : 1;
+        unsigned char bit3  : 1;
+        unsigned char bit4  : 1;
+        unsigned char bit5  : 1;
+        unsigned char bit6  : 1;
+        unsigned char bit7  : 1;
+        unsigned char bit8  : 1;
+        unsigned char bit9  : 1;
         unsigned char bit10 : 1;
         unsigned char bit11 : 1;
         unsigned char bit12 : 1; // MSB
@@ -67,7 +67,9 @@ void Bit12MutateXBit(struct bit12 *b, int x); // mutate
 void Bit12FixMutation(struct bit12 *b); //fix mutation
 char* Bit12Stringify(struct bit12 b); // stringify
 void Bit12StringifyDestroy(char* str); // stringify
-uint16_t Bit12ToUint16(struct bit12 b); // conversion
+uint16_t Bit12ToUint16(struct bit12 b); // TODO test
+struct bit12 Bit12FromUint16(uint16_t u16); // TODO(Joan) test
+struct bit12 Bit12EndiannessReverse(struct bit12 b12); // TODO(Joan) test
 
 // helper //
 // bit8
