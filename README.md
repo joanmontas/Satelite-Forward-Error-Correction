@@ -4,7 +4,7 @@
 
 ## Use Case: Correcting Errors Caused by Space Radiation
 
-![Alt text](./images/RadiationGuard.gif)
+![Alt text](./data/RadiationGuard.gif)
 This animation illustrates the impact of space radiation on data transmission.
 This particular scheme can, to some extent, remediate these issues.
 

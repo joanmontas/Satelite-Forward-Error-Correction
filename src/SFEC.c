@@ -2,7 +2,7 @@
 // All rights reserved.
 // License under GNU General Public License v3.0
 
-#include "SFEC.h"
+#include "../include/SFEC.h"
 #include <stdint.h>
 
 // Hardcoded 7 bits

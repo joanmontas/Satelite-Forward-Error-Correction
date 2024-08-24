@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "src/SFEC.h"
-#include "radiationGuard/radiationGuard.h"
+#include "../include/SFEC.h"
+#include "../include/radiationGuard.h"
 
 int main() {
         // input files

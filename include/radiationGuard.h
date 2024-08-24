@@ -6,7 +6,7 @@
 #define RADIATIONGUARD_H
 #include <stdio.h>
 #include <string.h>
-#include "../src/SFEC.h"
+#include "./SFEC.h"
 
 #define MAX_BUFFER_SIZE 1024
 #define MAX_FILE_FORMAT_SIZE 5

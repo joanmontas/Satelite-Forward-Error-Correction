@@ -5,35 +5,29 @@
 CC = gcc
 CFLAGS = --std=c99 -Wextra -Wpedantic -Wformat -Wshadow #-Wconversion
 PROGRAM_NAME = SFEC_USECASE
+BUILD_DIR = build
+BIN_DIR = bin
 
-all: $(PROGRAM_NAME) main.o SFEC.o
+all: $(BUILD_DIR) $(BIN_DIR) $(PROGRAM_NAME)
 
-$(PROGRAM_NAME): main.o SFEC.o radiationGuard.o
-	$(CC) $(CFLAGS) -o $(PROGRAM_NAME) main.o SFEC.o radiationGuard.o
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+$(BIN_DIR):
+	mkdir -p $(BIN_DIR)
 
-radiationGuard.o: ./radiationGuard/radiationGuard.c ./radiationGuard/radiationGuard.h SFEC.o
-	$(CC) $(CFLAGS) -c ./radiationGuard/radiationGuard.c
+$(PROGRAM_NAME): $(BUILD_DIR)/SFEC.o $(BUILD_DIR)/radiationGuard.o $(BUILD_DIR)/main.o
+	$(CC) $(CFLAGS) -o $(BIN_DIR)/$(PROGRAM_NAME) $(BUILD_DIR)/SFEC.o $(BUILD_DIR)/radiationGuard.o $(BUILD_DIR)/main.o
 
-SFEC.o: ./src/SFEC.c ./src/SFEC.h
-	$(CC) $(CFLAGS) -c ./src/SFEC.c
+$(BUILD_DIR)/main.o: src/main.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-testSFEC: testSFEC.o SFEC.o testSFEC-12-8.o testSFEC-7-3.o testSFECHelper.o
-	$(CC) $(CFLAGS) -o testSFEC testSFEC.o testSFECHelper.o testSFEC-7-3.o testSFEC-12-8.o SFEC.o -lcunit
+$(BUILD_DIR)/SFEC.o: src/SFEC.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-testSFEC.o: ./test/testSFEC.c SFEC.o testSFEC-12-8.o
-	$(CC) $(CFLAGS) -c ./test/testSFEC.c
-
-testSFEC-12-8.o: ./test/testSFEC-12-8.c SFEC.o
-	$(CC) $(CFLAGS) -c ./test/testSFEC-12-8.c
-
-testSFEC-7-3.o: ./test/testSFEC-7-3.c SFEC.o
-	$(CC) $(CFLAGS) -c ./test/testSFEC-7-3.c
-
-testSFECHelper.o: ./test/testSFECHelper.c SFEC.o
-	$(CC) $(CFLAGS) -c ./test/testSFECHelper.c
+$(BUILD_DIR)/radiationGuard.o: src/radiationGuard.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm ./*.o ./$(PROGRAM_NAME) ./testSFEC
+	rm -rf $(BUILD_DIR) $(BIN_DIR)/$(PROGRAM_NAME) ./data/corrected.txt ./data/input.txt.SFEC
+

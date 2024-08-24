@@ -2,7 +2,7 @@
 // All rights reserved.
 // License under GNU General Public License v3.0
 
-#include "radiationGuard.h"
+#include "../include/radiationGuard.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
